@@ -25,4 +25,9 @@ class Advertise extends Model
     {
         return $this->hasMany(AliasCollection::class, 'advertise_id');
     }
+
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class, 'advertise_id');
+    }
 }

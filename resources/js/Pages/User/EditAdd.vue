@@ -62,7 +62,7 @@
                             :name="'Password'"
                             :placeholder="'password'"
                             v-model="form.password"
-                            :required="true"
+                            :required="false"
                         />
                     </div>
                 </div>

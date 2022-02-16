@@ -5,6 +5,7 @@ use App\Http\Controllers\AdvertiseController;
 use App\Http\Controllers\AliasCollectionController;
 use App\Http\Controllers\CalculateController;
 use App\Http\Controllers\CalculateRevenueAdvertiseController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -103,6 +104,15 @@ Route::controller(AliasCollectionController::class)->middleware(['auth', 'verifi
     Route::patch('alias-collections/{alias_collection}', 'update')->middleware(['permission:alias-collection-edit'])->name('alias-collection.update');
     Route::delete('alias-collections/{alias_collection}', 'destroy')->middleware(['permission:alias-collection-delete'])->name('alias-collection.destroy');
     Route::get('alias-collections/{alias_collection}/edit', 'edit')->middleware(['permission:alias-collection-edit'])->name('alias-collection.edit');
+});
+
+Route::controller(CampaignController::class)->middleware(['auth', 'verified'])->group(function () {
+    Route::get('campaigns', 'index')->middleware(['permission:campaign-list'])->name('campaigns.index');
+    Route::post('campaigns', 'store')->middleware(['permission:campaign-create'])->name('campaigns.store');
+    Route::get('campaigns/create', 'create')->middleware(['permission:campaign-create'])->name('campaigns.create');
+    Route::patch('campaigns/{campaign}', 'update')->middleware(['permission:campaign-edit'])->name('campaigns.update');
+    Route::delete('campaigns/{campaign}', 'destroy')->middleware(['permission:campaign-delete'])->name('campaigns.destroy');
+    Route::get('campaigns/{campaign}/edit', 'edit')->middleware(['permission:campaign-edit'])->name('campaigns.edit');
 });
 
 Route::resource('calculated', CalculateController::class)->middleware(['auth', 'verified']);
