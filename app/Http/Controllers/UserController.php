@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if($request->password || $request->password != ""){
+        if($request->password != null){
             $password = Hash::make($request->password);
         } else {
             $password = $user->password;
