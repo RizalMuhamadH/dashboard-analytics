@@ -17,15 +17,17 @@ class Campaign extends Model
         'start_date',
         'end_date',
         'advertise_id',
-        'rate',
         'goal',
-        'impressions',
-        'clicks',
     ];
 
     public function advertise()
     {
         return $this->belongsTo(Advertise::class, 'advertise_id');
+    }
+
+    public function collection()
+    {
+        return $this->hasMany(CampaignCollection::class, 'campaign_id');
     }
 
     protected $dates = ['start_date', 'end_date'];

@@ -124,12 +124,7 @@ export default {
             window.history.back();
         },
         formReset() {
-            this.form.reset([
-                "name",
-                "email",
-                "role",
-                "password",
-            ]);
+            this.form.reset();
         },
         formAction() {
             if (this.action === "Edit") {
@@ -139,8 +134,8 @@ export default {
                         onFinish: () => this.formReset(),
                         onSuccess: (page) => {
                             this.formReset()
-                            toastr.success(this.$page.props.success.message);
-                            window.history.back();
+                            // toastr.success(this.$page.props.success.message);
+                            // window.history.back();
                         },
                         onError: (errors) => {
                             console.log(errors);
@@ -152,8 +147,8 @@ export default {
                     onFinish: () => this.formReset(),
                     onSuccess: (page) => {
                             this.formReset()
-                            toastr.success(this.$page.props.success.message);
-                            window.history.back();
+                            // toastr.success(this.$page.props.success.message);
+                            // window.history.back();
                         },
                     onError: (errors) => {
                         console.log(errors);

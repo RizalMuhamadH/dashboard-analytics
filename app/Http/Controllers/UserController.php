@@ -52,7 +52,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
-            'roles' => 'required'
+            'role' => 'required'
         ]);
 
         $user = User::create([
@@ -61,7 +61,7 @@ class UserController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        $user->assignRole($request->roles);
+        $user->assignRole($request->role);
 
         return redirect()->route('users.index')->with('success', 'User created successfully');
 

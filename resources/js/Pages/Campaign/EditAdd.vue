@@ -74,7 +74,7 @@
 
                         <label class="block text-sm mb-2">
                             <span class="text-gray-700 dark:text-gray-400"
-                                >Goal</span
+                                >Goal(%)</span
                             >
                             <input
                                 class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
@@ -85,44 +85,6 @@
                             />
                         </label>
 
-                        <label class="block text-sm mb-2">
-                            <span class="text-gray-700 dark:text-gray-400"
-                                >Impressions</span
-                            >
-                            <input
-                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                v-model="form.impressions"
-                                placeholder="impressions"
-                                type="number"
-                                :required="true"
-                            />
-                        </label>
-
-                        <label class="block text-sm mb-2">
-                            <span class="text-gray-700 dark:text-gray-400"
-                                >Clicks</span
-                            >
-                            <input
-                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                v-model="form.clicks"
-                                placeholder="clicks"
-                                type="number"
-                                :required="true"
-                            />
-                        </label>
-
-                        <label class="block text-sm mb-2">
-                            <span class="text-gray-700 dark:text-gray-400"
-                                >Rate</span
-                            >
-                            <input
-                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-                                v-model="form.rate"
-                                placeholder="rate"
-                                type="number"
-                                :required="true"
-                            />
-                        </label>
                     </div>
                 </div>
                 <button
@@ -155,10 +117,7 @@ export default {
                 endDate: "",
                 deposit: 0,
                 goal: 0,
-                impressions: 0,
-                rate: 0,
                 advertise: 0,
-                clicks: 0,
             }),
 
             formatter: {
@@ -222,9 +181,6 @@ export default {
             this.form.endDate= this.formatDate(this.campaign.end_date);
             this.form.deposit = this.campaign.deposit;
             this.form.goal = this.campaign.goal;
-            this.form.impressions = this.campaign.impressions;
-            this.form.clicks = this.campaign.clicks;
-            this.form.rate = this.campaign.rate;
             this.form.advertise = this.campaign.advertise_id;
         }
     },

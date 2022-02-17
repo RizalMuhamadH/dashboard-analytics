@@ -94,9 +94,7 @@
                             <th class="px-4 py-3">Deposit</th>
                             <th class="px-4 py-3">Start Date</th>
                             <th class="px-4 py-3">End Date</th>
-                            <th class="px-4 py-3">Goal</th>
-                            <th class="px-4 py-3">Impressions</th>
-                            <th class="px-4 py-3">Rate</th>
+                            <th class="px-4 py-3">Goal(%)</th>
                             <th class="px-4 py-3">Actions</th>
                         </tr>
                     </thead>
@@ -126,12 +124,6 @@
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 {{ item.goal }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ item.impressions }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ item.rate }}
                             </td>
                             <td class="px-4 py-3">
                                 <div
