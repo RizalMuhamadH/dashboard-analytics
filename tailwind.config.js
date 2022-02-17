@@ -210,5 +210,8 @@ module.exports = {
         boxShadow: ['focus', 'dark:focus'],
     },
 
-    plugins: [require('@tailwindcss/forms')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('daisyui')
+    ],
 };

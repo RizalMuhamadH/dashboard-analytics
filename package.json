@@ -30,6 +30,7 @@
         "@progress/kendo-vue-excel-export": "^3.0.4",
         "@vueform/multiselect": "^2.3.2",
         "chart.js": "^3.7.0",
+        "daisyui": "^2.0.7",
         "jw-paginate": "^1.0.4",
         "litepie-datepicker-tw3": "^0.0.1",
         "moment": "^2.29.1",
