@@ -18,7 +18,7 @@ class CampaignCollection extends Model
         'date_string'
     ];
 
-    protected $dates = ['date', 'created_at', 'updated_at', 'date_string'];
+    protected $dates = ['date', 'created_at', 'updated_at'];
 
     public function campaign()
     {
