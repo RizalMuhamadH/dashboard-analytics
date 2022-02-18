@@ -13,19 +13,17 @@
                     <div class="stat py-6 w-40 bg-red-600">
                         <div class="stat-title">Impressions</div>
                         <div class="stat-value">0</div>
-
                     </div>
 
                     <div class="stat py-6 w-40 bg-yellow-300 text-black">
-                        <div class="stat-title">Avg. CPC </div>
+                        <div class="stat-title">Avg. CPC</div>
                         <div class="stat-value">0</div>
                     </div>
 
-                     <div class="stat py-6 w-40 bg-green-500">
+                    <div class="stat py-6 w-40 bg-green-500">
                         <div class="stat-title">CTR</div>
                         <div class="stat-value">0</div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -47,55 +45,107 @@
             </div>
         </div>
         <div class="py-5">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-4 gap-4">
+            <div
+                class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-4 gap-4"
+            >
                 <div class="col-span-2">
                     <div class="card bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <div class="flex flex-row">
-                            <div class="basis-3/4">
-                                <h2 class="card-title">List Campaign</h2>
+                        <div class="card-body">
+                            <div class="flex flex-row">
+                                <div class="basis-3/4">
+                                    <h2 class="card-title">List Campaign</h2>
+                                </div>
+                                <div class="absolute right-10 card-actions">
+                                    <svg
+                                        class="w-6 h-6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        ></path>
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="absolute right-10 card-actions">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                            </div>
+                            <table class="w-full mt-3 whitespace-no-wrap">
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <table class="w-full mt-3 whitespace-no-wrap">
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                     </div>
                 </div>
                 <div class="col-span-2">
                     <div class="card bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <div class="flex flex-row">
-                            <div class="basis-3/4">
-                                <h2 class="card-title">Campaigns</h2>
+                        <div class="card-body">
+                            <div class="flex flex-row">
+                                <div class="basis-3/4">
+                                    <h2 class="card-title">Campaigns</h2>
+                                </div>
+                                <div class="absolute right-10 card-actions">
+                                    <svg
+                                        class="w-6 h-6"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        ></path>
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="absolute right-10 card-actions">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                            </div>
+                            <hr class="text-white" />
+                            <table class="w-full mt-3 whitespace-no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th>Campaign</th>
+                                        <th>Budget</th>
+                                        <th>Goal(%)</th>
+                                        <th>Impression</th>
+                                        <th>Clicks</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        v-for="(item, index) of campaigns"
+                                        :key="index"
+                                    >
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ item.campaign.name }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ item.campaign.deposit }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ item.campaign.goal }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ item.impressions }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ item.clicks }}
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ item.rate }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <hr class="text-white">
-                        <table class="w-full mt-3 whitespace-no-wrap">
-                            <thead>
-                                <tr>
-                                    <th>Campaign</th>
-                                    <th>Cost</th>
-                                    <th>Clicks</th>
-                                    <th>CTR</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                               
-                            </tbody>
-                        </table>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -107,9 +157,10 @@
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import BreezeChart from "@/Components/Chart.vue";
+import moment from "moment";
 
 export default {
-    props: ["statistics"],
+    props: ["statistics", "campaigns"],
     components: {
         BreezeAuthenticatedLayout,
         Head,
@@ -121,20 +172,7 @@ export default {
             state: false,
             chartType: "line",
             chartData: {
-                labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                ],
+                labels: [],
                 datasets: [
                     {
                         label: "Clicks",
@@ -198,23 +236,22 @@ export default {
             },
         };
     },
+    methods: {
+        formatDate(date){
+            return moment(date).format('LL')
+        }
+    },
     mounted() {
         var s = this.statistics.sort((a, b) => {
-            if (a._id.month < b._id.month) return -1;
-            if (a._id.month > b._id.month) return 1;
+            if (new Date(a._id.date) < new Date(b._id.date)) return -1;
+            if (new Date(a._id.date) > new Date(b._id.date)) return 1;
             return 0;
         });
-        for (let i = 0; i < 12; i++) {
-            var index = i + 1;
-
-            if(s[i] == undefined) {
-                this.chartData.datasets[0].data.push(0);
-            } else if(s[i]._id.month == index) {
-                this.chartData.datasets[0].data.push(s[i].revenue);
-            } else {
-                this.chartData.datasets[0].data.push(0);
-            }
-
+        for (let i = 0; i < this.statistics.length; i++) {
+            this.chartData.labels.push(this.formatDate(s[i]._id.date));
+            this.chartData.datasets[0].data.push(s[i].clicks);
+            this.chartData.datasets[1].data.push(s[i].impressions);
+            this.chartData.datasets[3].data.push(s[i].rate);
         }
     },
 };

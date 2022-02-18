@@ -35,11 +35,8 @@ class DashboardController extends Controller
                             '$toObjectId' => '$campaign_id'
                         ],
                         'impressions' => '$impressions',
-                        'date' => [
-                            '$toDate' => '$date'
-                        ],
                         'clicks' => '$clicks',
-                        'rate' => '$rate'
+                        'rate' => '$rate',
                     ]
                 ],
                 [
@@ -47,15 +44,31 @@ class DashboardController extends Controller
                         'from' => 'campaigns',
                         'localField' => "campaign_id",
                         'foreignField' => "_id",
-                        'as' => "campaign"
+                        'as' => "campaign",
+                        'pipeline' => [
+                            [
+                                '$project' => [
+                                    'start_date' => [
+                                        '$toString' => '$start_date'
+                                    ],
+                                    'end_date' => [
+                                        '$toString' => '$end_date'
+                                    ],
+                                    'name' => '$name',
+                                    'deposit' => '$deposit',
+                                    'goal' => '$goal',
+                                ]
+                            ]
+                        ]
                     ]
                 ],
+
+                ['$unwind' => '$campaign'],
                 [
                     '$group' => [
 
                         '_id' => [
                             'campaign_id' => '$campaign_id',
-                            'campaign' => '$campaign',
                         ],
                         'impressions' => [
                             '$sum' => '$impressions',
@@ -65,7 +78,10 @@ class DashboardController extends Controller
                         ],
                         'rate' => [
                             '$sum' => '$rate',
-                        ]
+                        ],
+                        'campaign' => [
+                            '$first' => '$campaign',
+                        ],
                     ],
                 ]
             ]);
@@ -117,7 +133,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'statistics' => $graph,
-            'data' => $data,
+            'campaigns' => $data,
         ]);
     }
 }
