@@ -10,13 +10,16 @@
 
         <div class="my-6 flex space-x-3">
             <Link
+                v-if="
+                    $page.props.auth.permissions.includes('campaign-collection-create')
+                "
                 :href="route('campaign-collection.create')"
                 :class="'px-4 py-2 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple'"
             >
                 Create
             </Link>
 
-            <div class="flex justify-end flex-1 lg:mr-32">
+            <!-- <div class="flex justify-end flex-1 lg:mr-32">
                 <div
                     class="
                         relative
@@ -70,7 +73,7 @@
                         @keyup.enter="handleSearch"
                     />
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="w-full overflow-hidden rounded-lg shadow-xs">
@@ -128,8 +131,8 @@
                                     <BreezeAction
                                         :id="item.id"
                                         :section="'campaign-collection'"
-                                        :isDelete="false"
-                                        :isEdit="true"
+                                        :isDelete="$page.props.auth.permissions.includes('campaign-collection-delete')"
+                                        :isEdit="$page.props.auth.permissions.includes('campaign-collection-edit')"
                                         :component="false"
                                         :param="item._id"
                                     />
