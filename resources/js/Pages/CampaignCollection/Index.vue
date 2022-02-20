@@ -117,12 +117,12 @@
                                 {{ item.campaign.name }}
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{ item.impressions }}
+                                {{ formatNumber(item.impressions) }}
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{ item.clicks }}
+                                {{ formatNumber(item.clicks) }}
                             </td>
-                            <td class="px-4 py-3 text-sm"> {{ item.rate }} </td>
+                            <td class="px-4 py-3 text-sm"> {{ currency(item.rate) }} </td>
                             <td class="px-4 py-3 text-sm"> {{ formatDate(item.date) }} </td>
                             <td class="px-4 py-3">
                                 <div
@@ -188,6 +188,15 @@ export default {
         BreezePaginate,
     },
     methods: {
+        formatNumber(num) {
+            return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        },
+        currency(value) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+            }).format(value);
+        },
         handleSearch() {
             this.$inertia.get(
                 this.route(

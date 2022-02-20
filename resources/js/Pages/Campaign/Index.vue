@@ -75,7 +75,7 @@
                                 {{ item.name }}
                             </td>
                             <td class="px-4 py-3 text-sm">
-                                {{ item.deposit }}
+                                {{ currency(item.deposit) }}
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 {{ formatDate(item.start_date) }}
@@ -162,6 +162,12 @@ export default {
         BreezePaginate,
     },
     methods: {
+        currency(value) {
+            return new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+            }).format(value);
+        },
         handleSearch() {
             this.$inertia.get(
                 this.route(
