@@ -209,13 +209,16 @@
           <thead class="bg-white dark:bg-black text-black dark:text-white">
             <tr
               class="
+                dark:text-black
+                dark:bg-white
                 text-xs
                 font-semibold
                 tracking-wide
-                text-left text-white
+                text-left 
+                text-white
                 uppercase
                 border-b
-                dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
+                dark:border-gray-700
               "
             >
               <th @click="changeOrder('name')">Campaign</th>

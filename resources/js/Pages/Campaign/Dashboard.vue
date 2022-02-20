@@ -203,16 +203,19 @@
     <div class="py-5 bg-white rounded-lg shadow-xs dark:bg-gray-800">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <table class="table table-compact w-full mt-3 whitespace-no-wrap">
-          <thead class="bg-white dark:bg-black text-black dark:text-white">
+          <thead class=" text-black bg-white">
             <tr
               class="
+                dark:text-black
                 text-xs
                 font-semibold
                 tracking-wide
-                text-left text-white
+                text-left
+              text-white
                 uppercase
                 border-b
-                dark:border-gray-700 dark:text-gray-400
+                dark:border-gray-700
+                dark:bg-white
               "
             >
               <th @click="changeOrder('name')" class="hover:cursor-pointer">
