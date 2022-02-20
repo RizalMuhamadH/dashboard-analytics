@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use MongoDB\BSON\UTCDateTime;
-use MongoDB\BSON\ObjectID;
+use MongoDB\BSON\ObjectId;
 use MongoDB\Collection;
 
 class CampaignController extends Controller
@@ -268,8 +268,9 @@ class CampaignController extends Controller
     }
 
     public function detail(Request $request, $id){
-        $start = $request->start ?? Carbon::now()->subDays(29)->format('Y-m-d');
-        $end = $request->end ?? Carbon::now()->format('Y-m-d');
+        $campaign = Campaign::with('collection')->findOrFail($id);
+        $start = $request->start ?? Carbon::parse($campaign->start_date)->format('Y-m-d');
+        $end = $request->end ?? Carbon::parse($campaign->end_date)->format('Y-m-d');
         $column = array_keys(Campaign::first()->toArray());
         $operator = ["==","!=",">","<",">=","<="];
 
@@ -286,14 +287,12 @@ class CampaignController extends Controller
                 ],
                 [
                     '$match' => [
-                        '_id' => $id,
+                        'campaign_id' => $id,
                     ]
                 ],
                 [
                     '$project' => [
-                        'campaign_id' => [
-                            '$toObjectId' => '$campaign_id'
-                        ],
+                        'campaign_id' => '$campaign_id',
                         'impressions' => '$impressions',
                         'date' => [
                             '$toString' => '$date'
@@ -302,101 +301,20 @@ class CampaignController extends Controller
                         'rate' => '$rate'
                     ]
                 ],
-                [
-                    '$group' => [
-
-                        '_id' => [
-                            'date' => '$date'
-                        ],
-                        'impressions' => [
-                            '$sum' => '$impressions',
-                        ],
-                        'clicks' => [
-                            '$sum' => '$clicks',
-                        ],
-                        'rate' => [
-                            '$sum' => '$rate',
-                        ]
-                    ],
-                ]
             ]);
         });
+        // return $graph;
 
-        $data = CampaignCollection::raw(function ($collection) use ($start, $end) {
-            return $collection->aggregate([
-                [
-                    '$match' => [
-                        'date' => [
-                            '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
-                            '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
-                        ],
-                    ],
-                ],
-                [
-                    '$project' => [
-                        'campaign_id' => '$campaign_id',
-                        'impressions' => '$impressions',
-                        'clicks' => '$clicks',
-                        'rate' => '$rate',
-                    ]
-                ],
-                [
-                    '$lookup' => [
-                        'from' => 'campaigns',
-                        'localField' => "campaign_id",
-                        'foreignField' => "_id",
-                        'as' => "campaign",
-                        'pipeline' => [
-                            [
-                                '$project' => [
-                                    '_id' => [
-                                        '$toString' => '$_id'
-                                    ],
-                                    'start_date' => [
-                                        '$toString' => '$start_date'
-                                    ],
-                                    'end_date' => [
-                                        '$toString' => '$end_date'
-                                    ],
-                                    'name' => '$name',
-                                    'deposit' => '$deposit',
-                                    'goal' => '$goal',
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-
-                ['$unwind' => '$campaign'],
-                [
-                    '$group' => [
-
-                        '_id' => [
-                            'campaign_id' => '$campaign_id',
-                        ],
-                        'impressions' => [
-                            '$sum' => '$impressions',
-                        ],
-                        'clicks' => [
-                            '$sum' => '$clicks',
-                        ],
-                        'rate' => [
-                            '$sum' => '$rate',
-                        ],
-                        'campaign' => [
-                            '$first' => '$campaign',
-                        ],
-                    ],
-                ]
-            ]);
-        });
 
         
         return Inertia::render('Campaign/DetailDashboard', [
-            'campaigns'     => $data,
+            'campaign'      => $campaign,
+            'collection'    => $graph,
             'statistics'    => $graph,
             'columns'       => $column,
             'operators'     => $operator,
+            'start'         => $start,
+            'end'           => $end,
         ]);
     }
 

@@ -159,33 +159,6 @@
                             <span class="ml-4">Campaign Collection</span>
                         </NavLink>
                     </li>
-
-                    <li class="relative px-6 py-3">
-                        <NavLink
-                            :href="route('campaign-collection.dashboard')"
-                            :active="
-                                url.startsWith('/campaign-collection/dashboard')
-                                    ? true
-                                    : false
-                            "
-                        >
-                            <svg
-                                class="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
-                                ></path>
-                            </svg>
-                            <span class="ml-4">Campaign Dashboard</span>
-                        </NavLink>
-                    </li>
                 </ul>
             </div>
         </aside>
@@ -357,32 +330,6 @@
                         </NavLink>
                     </li>
 
-                    <li class="relative px-6 py-3">
-                        <NavLink
-                            :href="route('campaign-collection.dashboard')"
-                            :active="
-                                url.startsWith('/campaign-collection/dashboard')
-                                    ? true
-                                    : false
-                            "
-                        >
-                            <svg
-                                class="w-6 h-6"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
-                                ></path>
-                            </svg>
-                            <span class="ml-4">Campaign Dashboard</span>
-                        </NavLink>
-                    </li>
                 </ul>
             </div>
         </aside>

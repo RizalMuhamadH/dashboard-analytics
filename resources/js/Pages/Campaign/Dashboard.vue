@@ -217,6 +217,8 @@
                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800"
                         >
                             <th @click="changeOrder('name')">Campaign</th>
+                            <th @click="changeOrder('start_date')">Start</th>
+                            <th @click="changeOrder('end_date')">End</th>
                             <th @click="changeOrder('deposit')">Budget</th>
                             <th @click="changeOrder('goal')">Goal(%)</th>
                             <th @click="changeOrder('impression')">
@@ -239,6 +241,12 @@
                                 @click="redirectPage(item.campaign._id)"
                             >
                                 {{ item.campaign.name }}
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                {{ formatDateTime(item.campaign.start_date) }}
+                            </td>
+                            <td class="px-4 py-3 text-sm">
+                                {{ formatDateTime(item.campaign.end_date) }}
                             </td>
                             <td class="px-4 py-3 text-sm">
                                 {{ item.campaign.deposit }}
@@ -274,7 +282,7 @@ import PaginationCollection from "@/Components/PaginateCollection.vue";
 import moment from "moment";
 
 export default {
-    props: ["statistics", "campaigns", "columns", "operators", "start", "end"],
+    props: ["statistics", "campaigns", "operators", "start", "end"],
     components: {
         BreezeAuthenticatedLayout,
         Head,
@@ -361,6 +369,7 @@ export default {
                 date: "YYYY-MM-DD",
                 month: "MMM",
             },
+            columns: ['name', 'deposit', 'goal', 'impression', 'clicks', 'rate'],
         };
     },
     watch: {
@@ -379,6 +388,9 @@ export default {
     methods: {
         formatDate(date) {
             return moment(date).format("LL");
+        },
+        formatDateTime(date) {
+            return moment(date).format("LLL");
         },
         addNewFiltering: function () {
             if (
@@ -399,7 +411,7 @@ export default {
         redirectPage: function (id) {
             // window.location.href = "/campaign-collection/detail/"+id
             this.$inertia.get(
-                "/campaign-collection/detail/" + id,
+                this.route("campaign-collection.detail", {id: id}),
                 {},
                 {
                     onSuccess: (page) => {},
@@ -446,19 +458,6 @@ export default {
                                   }
                               } else if (filtering.operator == ">") {
                                   if (
-                                      campaign[filtering.column] <
-                                      filtering.parameter
-                                  ) {
-                                      result = true;
-                                  }
-                                  if (
-                                      campaign.campaign[filtering.column] <
-                                      filtering.parameter
-                                  ) {
-                                      result = true;
-                                  }
-                              } else if (filtering.operator == "<") {
-                                  if (
                                       campaign[filtering.column] >
                                       filtering.parameter
                                   ) {
@@ -466,6 +465,19 @@ export default {
                                   }
                                   if (
                                       campaign.campaign[filtering.column] >
+                                      filtering.parameter
+                                  ) {
+                                      result = true;
+                                  }
+                              } else if (filtering.operator == "<") {
+                                  if (
+                                      campaign[filtering.column] <
+                                      filtering.parameter
+                                  ) {
+                                      result = true;
+                                  }
+                                  if (
+                                      campaign.campaign[filtering.column] <
                                       filtering.parameter
                                   ) {
                                       result = true;
@@ -506,11 +518,10 @@ export default {
 
         filterAction() {
             this.$inertia.get(
-                this.route("campaign-collection.dashboard"),
+                this.route("dashboard.index"),
                 {
                     start: this.date.startDate,
                     end: this.date.endDate,
-                    filterings: this.filterings,
                 },
                 {
                     onSuccess: (page) => {},
