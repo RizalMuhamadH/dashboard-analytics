@@ -247,14 +247,14 @@
                 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
               "
             >
-              <th @click="changeOrder('name')">Campaign</th>
-              <th @click="changeOrder('start_date')">Start</th>
-              <th @click="changeOrder('end_date')">End</th>
-              <th @click="changeOrder('deposit')">Budget</th>
-              <th @click="changeOrder('goal')">Goal(%)</th>
-              <th @click="changeOrder('impression')">Impression</th>
-              <th @click="changeOrder('clicks')">Clicks</th>
-              <th @click="changeOrder('rate')">Rate</th>
+              <th @click="changeOrder('name')" class="hover:cursor-pointer">Campaign</th>
+              <th @click="changeOrder('start_date')"  class="hover:cursor-pointer">Start</th>
+              <th @click="changeOrder('end_date')"  class="hover:cursor-pointer">End</th>
+              <th @click="changeOrder('deposit')"  class="hover:cursor-pointer">Budget</th>
+              <th @click="changeOrder('goal')"  class="hover:cursor-pointer">Goal(%)</th>
+              <th @click="changeOrder('impressions')" class="hover:cursor-pointer">Impression</th>
+              <th @click="changeOrder('clicks')" class="hover:cursor-pointer">Clicks</th>
+              <th @click="changeOrder('rate')" class="hover:cursor-pointer">Rate</th>
             </tr>
           </thead>
           <tbody
@@ -325,13 +325,17 @@ export default {
 
   data() {
     return {
-      graphics: "All",
       data: this.campaigns,
       state: false,
       chartType: "line",
       date: {
         startDate: "",
         endDate: "",
+      },
+      graphic: '',
+      sorting:{
+        column: "",
+        ascending: "",
       },
       chartData: {
         labels: [],
@@ -415,6 +419,7 @@ export default {
       },
       deep: true,
     },
+    
   },
   methods: {
     formatDate(date) {
@@ -529,6 +534,7 @@ export default {
         {
           start: this.date.startDate,
           end: this.date.endDate,
+          graphic: this.graphic,
         },
         {
           onSuccess: (page) => {},
@@ -539,13 +545,41 @@ export default {
       );
     },
 
-    filteringGraph:function(graphic) {
+    filteringGraph(graphic) {
+      this.graphic = graphic;
       this.$inertia.get(
         this.route("dashboard.index"),
         {
           start: this.date.startDate,
           end: this.date.endDate,
           graphic: graphic
+        },
+        {
+          onSuccess: (page) => {},
+          onError: (errors) => {
+            console.log(errors);
+          },
+        }
+      );
+    },
+
+    changeOrder(column){
+        if(this.sorting.column != column){
+            this.sorting.column = column;
+            this.sorting.ascending = true;
+        }else if(this.sorting.column == column){
+            if(this.sorting.ascending == true){
+                this.sorting.ascending = false;
+            }
+        }
+        this.$inertia.get(
+        this.route("dashboard.index"),
+        {
+          start: this.date.startDate,
+          end: this.date.endDate,
+          graphic: this.graphic,
+          column: this.sorting.column,
+          ascending: this.sorting.ascending
         },
         {
           onSuccess: (page) => {},

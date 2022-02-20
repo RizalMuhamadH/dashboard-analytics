@@ -136,52 +136,15 @@ class CampaignController extends Controller
         $start = $request->start ?? Carbon::now()->subDays(29)->format('Y-m-d');
         $end = $request->end ?? Carbon::now()->format('Y-m-d');
         $graphic = $request->graphic ?? "All";
+        $orderby = $request->order ?? "name";
+        $ascending = 1;
+        if($request->ascending === true){
+            $ascending = 1;
+        }else{
+            $ascending = -1;
+        }
         $column = array_keys(Campaign::first()->toArray());
         $operator = ["==","!=",">","<",">=","<="];
-
-
-        // $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
-        //     return $collection->aggregate([
-        //         [
-        //             '$match' => [
-        //                 'date' => [
-        //                     '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
-        //                     '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
-        //                 ],
-        //             ],
-        //         ],
-        //         [
-        //             '$project' => [
-        //                 'campaign_id' => [
-        //                     '$toObjectId' => '$campaign_id'
-        //                 ],
-        //                 'impressions' => '$impressions',
-        //                 'date' => [
-        //                     '$toString' => '$date'
-        //                 ],
-        //                 'clicks' => '$clicks',
-        //                 'rate' => '$rate'
-        //             ]
-        //         ],
-        //         [
-        //             '$group' => [
-
-        //                 '_id' => [
-        //                     'date' => '$date'
-        //                 ],
-        //                 'impressions' => [
-        //                     '$sum' => '$impressions',
-        //                 ],
-        //                 'clicks' => [
-        //                     '$sum' => '$clicks',
-        //                 ],
-        //                 'rate' => [
-        //                     '$sum' => '$rate',
-        //                 ]
-        //             ],
-        //         ]
-        //     ]);
-        // });
 
         $graph = null;
         if($graphic == "All"){
@@ -334,7 +297,7 @@ class CampaignController extends Controller
             });
         }
 
-        $data = CampaignCollection::raw(function ($collection) use ($start, $end) {
+        $data = CampaignCollection::raw(function ($collection) use ($start, $end, $orderby, $ascending) {
             return $collection->aggregate([
                 [
                     '$match' => [
@@ -343,7 +306,10 @@ class CampaignController extends Controller
                             '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
                         ],
                     ],
+                    
+                    
                 ],
+                ['$sort' => [$orderby => $ascending]],
                 [
                     '$project' => [
                         'campaign_id' => [

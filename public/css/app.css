@@ -4305,6 +4305,9 @@ html {
   --tw-text-opacity: 1;
   color: rgb(26 32 46 / var(--tw-text-opacity));
 }
+.hover\:cursor-pointer:hover {
+  cursor: pointer;
+}
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(213 214 215 / var(--tw-border-opacity));
