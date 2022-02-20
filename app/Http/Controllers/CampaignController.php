@@ -512,7 +512,7 @@ class CampaignController extends Controller
             });
         }
        
- 
+        // dd($campaign);
         return Inertia::render('Campaign/DetailDashboard', [
             'campaign'      => $campaign,
             'collection'    => $graph,

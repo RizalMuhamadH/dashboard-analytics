@@ -44,10 +44,30 @@
                       w-52
                     "
                   >
-                    <li><a>CSV</a></li>
-                    <li><a>XLSX</a></li>
-                    <li><a>Google Sheet</a></li>
+                    <li @click="handleExport('csv')"><a>CSV</a></li>
+                    <li @click="handleExport('xlsx')"><a>XLSX</a></li>
                   </ul>
+                  <svg
+                    v-if="loading"
+                    class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
                 </div>
               </div>
 
@@ -111,32 +131,6 @@
             <div class="px-4 py-3 mb-8 rounded-lg">
               <div class="flex space-x-4">
                 <div class="basis-1/6">
-                  <!-- <label class="block text-md mb-2">
-                      <span class="text-gray-700 dark:text-white">
-                        Column
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Type here"
-                      class="
-                        block
-                        text-black
-                        dark:text-gray-200
-                        w-full
-                        mt-1
-                        text-sm
-                        border border-gray-200
-                        rounded-md
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-purple-400
-                        focus:outline-none
-                        focus:shadow-outline-purple
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                      v-model="filter.column"
-                    /> -->
                   <BreezeInputSelect
                     :name="'Column'"
                     v-model="filter.column"
@@ -162,32 +156,6 @@
                     class="text-black dark:text-white"
                     autofocus
                   />
-                  <!-- <label class="block text-md mb-2">
-                      <span class="text-gray-700 dark:text-white">
-                        Parameter
-                      </span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Type here"
-                      class="
-                        block
-                        text-black
-                        dark:text-gray-200
-                        w-full
-                        mt-1
-                        text-sm
-                        border border-gray-200
-                        rounded-md
-                        dark:border-gray-600 dark:bg-gray-700
-                        focus:border-purple-400
-                        focus:outline-none
-                        focus:shadow-outline-purple
-                        dark:text-gray-300 dark:focus:shadow-outline-gray
-                        form-input
-                      "
-                      v-model="filter.parameter"
-                    /> -->
                 </div>
                 <div class="basis-1/4">
                   <label class="block mb-2"> </label>
@@ -234,17 +202,17 @@
     </div>
     <div class="py-5 bg-white rounded-lg shadow-xs dark:bg-gray-800">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <table class="w-full mt-3 whitespace-no-wrap">
-          <thead>
+        <table class="table table-compact w-full mt-3 whitespace-no-wrap">
+          <thead class="bg-white dark:bg-black text-black dark:text-white">
             <tr
               class="
                 text-xs
                 font-semibold
                 tracking-wide
-                text-left text-gray-500
+                text-left text-white
                 uppercase
                 border-b
-                dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800
+                dark:border-gray-700 dark:text-gray-400
               "
             >
               <th @click="changeOrder('name')" class="hover:cursor-pointer">
@@ -331,6 +299,7 @@ import BreezeInputSelect from "@/Components/InputSelect.vue";
 import LitepieDatepicker from "litepie-datepicker-tw3";
 import PaginationCollection from "@/Components/PaginateCollection.vue";
 import moment from "moment";
+import { saveExcel } from "@progress/kendo-vue-excel-export";
 
 export default {
   props: ["statistics", "campaigns", "operators", "start", "end"],
@@ -349,6 +318,7 @@ export default {
     return {
       data: this.campaigns,
       state: false,
+      loading: false,
       chartType: "line",
       date: {
         startDate: "",
@@ -609,6 +579,66 @@ export default {
           },
         }
       );
+    },
+
+    handleExport(type) {
+      this.loading = true;
+      var record = this.data.map((item) => {
+        return {
+          name: item.campaign.name,
+          start_date: this.formatDateTime(item.campaign.start_date),
+          end_date: this.formatDateTime(item.campaign.end_date),
+          deposit: item.campaign.deposit,
+          goal: item.campaign.goal + "%",
+          impressions: item.impressions,
+          clicks: item.clicks,
+          rate: item.rate,
+        };
+      });
+
+      if (type == "xlsx") {
+        saveExcel({
+          data: record,
+          fileName:
+            "analytics_ayo_media_network" +
+            this.date.startDate +
+            "-" +
+            this.date.endDate +
+            ".xlsx",
+          columns: [
+            { field: "name", title: "Name" },
+            { field: "start_date", title: "Start Date" },
+            { field: "end_date", title: "End Date" },
+            { field: "deposit", title: "Deposit" },
+            { field: "goal", title: "Goal" },
+            { field: "impressions", title: "Impressions" },
+            { field: "clicks", title: "Clicks" },
+            { field: "rate", title: "Rate" },
+          ],
+        });
+      } else if (type == "csv") {
+        saveExcel({
+          data: record,
+          fileName:
+            "analytics_ayo_media_network" +
+            this.date.startDate +
+            "-" +
+            this.date.endDate +
+            ".csv",
+          columns: [
+            { field: "name", title: "Name" },
+            { field: "start_date", title: "Start Date" },
+            { field: "end_date", title: "End Date" },
+            { field: "budget", title: "Budget" },
+            { field: "goal", title: "Goal" },
+            { field: "impressions", title: "Impressions" },
+            { field: "clicks", title: "Clicks" },
+            { field: "rate", title: "Rate" },
+          ],
+        });
+      }
+
+      this.loading = false;
     },
   },
   mounted() {
