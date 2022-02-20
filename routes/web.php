@@ -133,5 +133,5 @@ Route::resource('calculated', CalculateController::class)->middleware(['auth', '
 
 Route::get('/dashboard',[DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
 Route::get('/campaign-collection/dashboard',[CampaignController::class,'dashboard'])->middleware(['auth','verified'])->name('campaign-collection.dashboard');
-Route::get('/campaign-collection/detail/{campaign_collection}',[CampaignController::class,'detail'])->middleware(['auth','verified'])->name('campaign-collection.detail');
+Route::get('/campaign-collection/detail/{id}',[CampaignController::class,'detail'])->middleware(['auth','verified'])->name('campaign-collection.detail');
 require __DIR__ . '/auth.php';
