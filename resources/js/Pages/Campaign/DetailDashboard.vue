@@ -485,11 +485,13 @@ export default {
 
         filteringGraph:function(graphic) {
             this.$inertia.get(
-                this.route("dashboard.index"),
+                this.route("campaign-collection.detail", {
+                    id: this.campaign._id,
+                }),
                 {
-                start: this.date.startDate,
-                end: this.date.endDate,
-                graphic: graphic
+                    start: this.date.startDate,
+                    end: this.date.endDate,
+                    graphic: graphic,
                 },
                 {
                 onSuccess: (page) => {},
