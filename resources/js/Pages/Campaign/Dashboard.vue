@@ -4,7 +4,7 @@
     <BreezeAuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-visible shadow-sm sm:rounded-lg">
+                <div class="bg-base-100 overflow-visible shadow-lg">
                     <div class="px-4 py-3 mb-8 rounded-lg">
                         <div class="flex space-x-4 overflow-visible">
                             <div class="basis-2/4">
@@ -51,7 +51,7 @@
                                     </ul>
                                     <svg
                                         v-if="loading"
-                                        class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                        class="animate-spin -ml-1 mr-3 h-5 w-5"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -75,7 +75,7 @@
 
                             <div class="basis-2/4">
                                 <litepie-datepicker
-                                    class="dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray"
+                                    class="focus:border-purple-400 focus:outline-none focus:shadow-outline-purple"
                                     v-model="date"
                                     overlay
                                     :formatter="formatter"
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                 <div
-                    class="p-6 min-w-0 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+                    class="p-6 min-w-0 bg-base-100 rounded-lg shadow-lg"
                 >
                     <BreezeChart
                         v-if="this.chartData.datasets.length > 0"
@@ -106,11 +106,11 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     tabindex="0"
-                    class="collapse bg-white rounded-lg shadow-xs dark:bg-gray-800 collapse-plus"
+                    class="collapse bg-base-100 rounded-lg shadow-lg collapse-plus"
                 >
                     <input type="checkbox" />
                     <div
-                        class="collapse-title text-xl font-medium text-gray-500 dark:text-gray-400"
+                        class="collapse-title text-xl font-medium"
                     >
                         Advanced Filtering
                     </div>
@@ -140,7 +140,6 @@
                                         :placeholder="'Masukan Parameter'"
                                         v-model="filter.parameter"
                                         :required="true"
-                                        class="text-black dark:text-white"
                                         autofocus
                                     />
                                 </div>
@@ -155,7 +154,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <h1 class="text-black mt-3">List Filter</h1>
+                            <h1 class="mt-3">List Filter</h1>
                             <div class="flex flex-wrap mt-2">
                                 <div
                                     v-for="(filters, index) in filterings"
@@ -193,14 +192,14 @@
                 </div>
             </div>
         </div>
-        <div class="py-5 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-5">
+            <div class="max-w-7xl mx-auto px-6 py-5 bg-base-100 rounded-lg shadow-lg">
                 <table
                     class="table table-compact w-full mt-3 whitespace-no-wrap"
                 >
-                    <thead class="text-black bg-white">
+                    <thead class="">
                         <tr
-                            class="dark:text-black text-xs font-semibold tracking-wide text-left text-white uppercase border-b dark:border-gray-700 dark:bg-white"
+                            class="text-xs font-semibold tracking-wide text-left  uppercase border-b border-black"
                         >
                             <th
                                 @click="changeOrder('name')"
@@ -253,10 +252,9 @@
                         </tr>
                     </thead>
                     <tbody
-                        class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+                        class="bg-base-100 divide-y"
                     >
                         <tr
-                            class="text-gray-700 dark:text-gray-400"
                             v-for="(item, index) of data"
                             :key="index"
                         >

@@ -4,10 +4,10 @@
     <BreezeAuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-visible shadow-sm sm:rounded-lg">
+                <div class="overflow-visible rounded-lg shadow-lg bg-base-100">
                     <div class="px-4 py-3 mb-8 rounded-lg">
                         <h1
-                            class="text-md text-black dark:text-white uppercase mb-2"
+                            class="text-md uppercase mb-2"
                         >
                             Campaign : {{ campaign.name }}
                         </h1>
@@ -19,7 +19,7 @@
                                     >
                                     <ul
                                         tabindex="0"
-                                        class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
+                                        class="p-2 shadow menu dropdown-content rounded-box w-52"
                                     >
                                         <li @click="filteringGraph('All')">
                                             <a>All</a>
@@ -45,7 +45,7 @@
                                     >
                                     <ul
                                         tabindex="0"
-                                        class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
+                                        class="p-2 shadow menu dropdown-content rounded-box w-52"
                                     >
                                         <li @click="handleExport('csv')">
                                             <a>CSV</a>
@@ -56,7 +56,7 @@
                                     </ul>
                                     <svg
                                         v-if="loading"
-                                        class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                        class="animate-spin -ml-1 mr-3 h-5 w-5"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -80,7 +80,7 @@
 
                             <div class="basis-2/4">
                                 <litepie-datepicker
-                                    class="dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray"
+                                    class=" focus:border-purple-400 focus:outline-none focus:shadow-outline-purple"
                                     v-model="date"
                                     overlay
                                     :formatter="formatter"
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div
-                    class="p-6 min-w-0 bg-white rounded-lg shadow-xs dark:bg-gray-800"
+                    class="p-6 min-w-0 rounded-lg shadow-lg bg-base-100"
                 >
                     <BreezeChart
                         v-if="this.chartData.datasets[0].data.length > 0"
@@ -111,11 +111,11 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     tabindex="0"
-                    class="collapse bg-white rounded-lg shadow-xs dark:bg-gray-800 collapse-plus"
+                    class="collapse rounded-lg shadow-lg collapse-plus bg-base-100"
                 >
                     <input type="checkbox" />
                     <div
-                        class="collapse-title text-xl font-medium text-gray-500 dark:text-gray-400"
+                        class="collapse-title text-xl font-medium"
                     >
                         Advanced Filtering
                     </div>
@@ -145,7 +145,7 @@
                                         :placeholder="'Masukan Parameter'"
                                         v-model="filter.parameter"
                                         :required="true"
-                                        class="text-black dark:text-white"
+                                        class=""
                                         autofocus
                                     />
                                 </div>
@@ -160,7 +160,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <h1 class="text-black mt-3">List Filter</h1>
+                            <h1 class="mt-3">List Filter</h1>
                             <div class="flex flex-wrap mt-2">
                                 <div
                                     v-for="(filters, index) in filterings"
@@ -198,17 +198,13 @@
                 </div>
             </div>
         </div>
-        <div class="py-5 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="py-5 ">
+            <div class="max-w-7xl mx-auto px-6 py-5 bg-base-100 shadow-lg rounded-lg">
                 <table
                     class="table table-compact w-full mt-3 whitespace-no-wrap"
                 >
-                    <thead
-                        class="bg-white dark:bg-black text-black dark:text-white"
-                    >
-                        <tr
-                            class="dark:text-black dark:bg-white text-xs font-semibold tracking-wide text-left text-white uppercase border-b dark:border-gray-700"
-                        >
+                    <thead>
+                        <tr class="font-semibold tracking-wide text-left uppercase border-b">
                             <th @click="changeOrder('name')">Campaign</th>
                             <th @click="changeOrder('deposit')">Date</th>
                             <th @click="changeOrder('goal')">Goal(%)</th>
@@ -220,10 +216,9 @@
                         </tr>
                     </thead>
                     <tbody
-                        class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+                        class="divide-y"
                     >
                         <tr
-                            class="text-gray-700 dark:text-gray-400"
                             v-for="(item, index) of data"
                             :key="index"
                         >
