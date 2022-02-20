@@ -16,10 +16,12 @@
                                         tabindex="0"
                                         class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
                                     >
-                                        <li><a>All</a></li>
-                                        <li><a>Clicks</a></li>
-                                        <li><a>Impression</a></li>
-                                        <li><a>CTR</a></li>
+                                        <li @click="filteringGraph('All')"><a>All</a></li>
+                                        <li @click="filteringGraph('Clicks')"><a>Clicks</a></li>
+                                        <li @click="filteringGraph('Impressions')">
+                                        <a>Impression</a>
+                                        </li>
+                                        <li @click="filteringGraph('CTR')"><a>CTR</a></li>
                                     </ul>
                                 </div>
                                 <div class="dropdown">
@@ -477,6 +479,23 @@ export default {
                     onError: (errors) => {
                         console.log(errors);
                     },
+                }
+            );
+        },
+
+        filteringGraph:function(graphic) {
+            this.$inertia.get(
+                this.route("dashboard.index"),
+                {
+                start: this.date.startDate,
+                end: this.date.endDate,
+                graphic: graphic
+                },
+                {
+                onSuccess: (page) => {},
+                onError: (errors) => {
+                    console.log(errors);
+                },
                 }
             );
         },

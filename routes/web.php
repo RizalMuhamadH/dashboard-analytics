@@ -134,4 +134,8 @@ Route::resource('calculated', CalculateController::class)->middleware(['auth', '
 // Route::get('/dashboard',[DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
 Route::get('/dashboard',[CampaignController::class,'dashboard'])->middleware(['auth','verified'])->name('dashboard.index');
 Route::get('/campaign/detail/{id}',[CampaignController::class,'detail'])->middleware(['auth','verified'])->name('campaign-collection.detail');
+// Route::get('/dashboard',[DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard.index');
+// Route::get('/campaign-collection/dashboard',[CampaignController::class,'dashboard'])->middleware(['auth','verified'])->name('campaign-collection.dashboard');
+// Route::get('/campaign-collection/detail/{id}',[CampaignController::class,'detail'])->middleware(['auth','verified'])->name('campaign-collection.detail');
+Route::post('/filter-graphic',[CampaignController::class,'filtering_graph'])->middleware(['auth','verified'])->name('filter-graphic');
 require __DIR__ . '/auth.php';

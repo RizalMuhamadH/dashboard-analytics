@@ -135,52 +135,204 @@ class CampaignController extends Controller
         // return $collection;
         $start = $request->start ?? Carbon::now()->subDays(29)->format('Y-m-d');
         $end = $request->end ?? Carbon::now()->format('Y-m-d');
+        $graphic = $request->graphic ?? "All";
         $column = array_keys(Campaign::first()->toArray());
         $operator = ["==","!=",">","<",">=","<="];
 
 
-        $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
-            return $collection->aggregate([
-                [
-                    '$match' => [
-                        'date' => [
-                            '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
-                            '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+        // $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+        //     return $collection->aggregate([
+        //         [
+        //             '$match' => [
+        //                 'date' => [
+        //                     '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+        //                     '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+        //                 ],
+        //             ],
+        //         ],
+        //         [
+        //             '$project' => [
+        //                 'campaign_id' => [
+        //                     '$toObjectId' => '$campaign_id'
+        //                 ],
+        //                 'impressions' => '$impressions',
+        //                 'date' => [
+        //                     '$toString' => '$date'
+        //                 ],
+        //                 'clicks' => '$clicks',
+        //                 'rate' => '$rate'
+        //             ]
+        //         ],
+        //         [
+        //             '$group' => [
+
+        //                 '_id' => [
+        //                     'date' => '$date'
+        //                 ],
+        //                 'impressions' => [
+        //                     '$sum' => '$impressions',
+        //                 ],
+        //                 'clicks' => [
+        //                     '$sum' => '$clicks',
+        //                 ],
+        //                 'rate' => [
+        //                     '$sum' => '$rate',
+        //                 ]
+        //             ],
+        //         ]
+        //     ]);
+        // });
+
+        $graph = null;
+        if($graphic == "All"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
                         ],
                     ],
-                ],
-                [
-                    '$project' => [
-                        'campaign_id' => [
-                            '$toObjectId' => '$campaign_id'
-                        ],
-                        'impressions' => '$impressions',
-                        'date' => [
-                            '$toString' => '$date'
-                        ],
-                        'clicks' => '$clicks',
-                        'rate' => '$rate'
-                    ]
-                ],
-                [
-                    '$group' => [
-
-                        '_id' => [
-                            'date' => '$date'
-                        ],
-                        'impressions' => [
-                            '$sum' => '$impressions',
-                        ],
-                        'clicks' => [
-                            '$sum' => '$clicks',
-                        ],
-                        'rate' => [
-                            '$sum' => '$rate',
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'impressions' => '$impressions',
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'clicks' => '$clicks',
+                            'rate' => '$rate'
                         ]
                     ],
-                ]
-            ]);
-        });
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'impressions' => [
+                                '$sum' => '$impressions',
+                            ],
+                            'clicks' => [
+                                '$sum' => '$clicks',
+                            ],
+                            'rate' => [
+                                '$sum' => '$rate',
+                            ]
+                        ],
+                    ]
+                ]);
+            });
+        }elseif($graphic == "Clicks"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'clicks' => '$clicks',
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'clicks' => [
+                                '$sum' => '$clicks',
+                            ],
+                        ],
+                    ]
+                ]);
+            });
+        }elseif($graphic == "Impressions"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'impressions' => '$impressions',
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'impressions' => [
+                                '$sum' => '$impressions',
+                            ],
+                        ],
+                    ]
+                ]);
+            });
+        }elseif($graphic == "CTR"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'rate' => '$rate',
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'rate' => [
+                                '$sum' => '$rate',
+                            ],
+                        ],
+                    ]
+                ]);
+            });
+        }
 
         $data = CampaignCollection::raw(function ($collection) use ($start, $end) {
             return $collection->aggregate([
@@ -221,7 +373,7 @@ class CampaignController extends Controller
                                         '$toString' => '$end_date'
                                     ],
                                     'camp_id'   => [
-                                        '$toString' =>  '$campaign_id'
+                                        '$toString' =>  '$_id'
                                     ],
                                     'name' => '$name',
                                     'deposit' => '$deposit',
@@ -318,7 +470,163 @@ class CampaignController extends Controller
         ]);
     }
 
-    public function filtering(Request $request){
-
+    public function filtering_graph(Request $request){
+        // dd($request->sort);
+        $sort = $request->sort;
+        $start = $request->start ?? Carbon::now()->subDays(29)->format('Y-m-d');
+        $end = $request->end ?? Carbon::now()->format('Y-m-d');
+        $graph = null;
+        if($sort == "All"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'impressions' => '$impressions',
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'clicks' => '$clicks',
+                            'rate' => '$rate'
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'impressions' => [
+                                '$sum' => '$impressions',
+                            ],
+                            'clicks' => [
+                                '$sum' => '$clicks',
+                            ],
+                            'rate' => [
+                                '$sum' => '$rate',
+                            ]
+                        ],
+                    ]
+                ]);
+            });
+        }elseif($sort == "Clicks"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'clicks' => '$clicks',
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'clicks' => [
+                                '$sum' => '$clicks',
+                            ],
+                        ],
+                    ]
+                ]);
+            });
+        }elseif($sort == "Impressions"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'impressions' => '$impressions',
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'impressions' => [
+                                '$sum' => '$impressions',
+                            ],
+                        ],
+                    ]
+                ]);
+            });
+        }elseif($sort == "CTR"){
+            $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
+                return $collection->aggregate([
+                    [
+                        '$match' => [
+                            'date' => [
+                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
+                            ],
+                        ],
+                    ],
+                    [
+                        '$project' => [
+                            'campaign_id' => [
+                                '$toObjectId' => '$campaign_id'
+                            ],
+                            'date' => [
+                                '$toString' => '$date'
+                            ],
+                            'rate' => '$rate',
+                        ]
+                    ],
+                    [
+                        '$group' => [
+    
+                            '_id' => [
+                                'date' => '$date'
+                            ],
+                            'rate' => [
+                                '$sum' => '$rate',
+                            ],
+                        ],
+                    ]
+                ]);
+            });
+        }
+        return response()->json([
+            'statistics'=>$graph
+        ]);
     }
 }

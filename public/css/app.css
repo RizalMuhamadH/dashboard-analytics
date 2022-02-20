@@ -3287,14 +3287,14 @@ html {
 .h-full {
   height: 100%;
 }
-.h-6 {
-  height: 1.5rem;
-}
 .h-4 {
   height: 1rem;
 }
 .h-screen {
   height: 100vh;
+}
+.h-6 {
+  height: 1.5rem;
 }
 .h-20 {
   height: 5rem;
@@ -3341,9 +3341,6 @@ html {
 .w-64 {
   width: 16rem;
 }
-.w-6 {
-  width: 1.5rem;
-}
 .w-full {
   width: 100%;
 }
@@ -3355,6 +3352,9 @@ html {
 }
 .w-1 {
   width: 0.25rem;
+}
+.w-6 {
+  width: 1.5rem;
 }
 .w-56 {
   width: 14rem;
