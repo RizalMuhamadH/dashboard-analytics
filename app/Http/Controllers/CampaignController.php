@@ -136,7 +136,7 @@ class CampaignController extends Controller
         $start = $request->start ?? Carbon::now()->subDays(29)->format('Y-m-d');
         $end = $request->end ?? Carbon::now()->format('Y-m-d');
         $column = array_keys(Campaign::first()->toArray());
-        $operator = ["==","!=",">","<",">=","<=","contains"];
+        $operator = ["==","!=",">","<",">=","<="];
 
 
         $graph = CampaignCollection::raw(function ($collection) use ($start, $end) {
@@ -211,6 +211,9 @@ class CampaignController extends Controller
                         'pipeline' => [
                             [
                                 '$project' => [
+                                    '_id' => [
+                                        '$toString' => '$_id'
+                                    ],
                                     'start_date' => [
                                         '$toString' => '$start_date'
                                     ],
@@ -259,6 +262,8 @@ class CampaignController extends Controller
             'statistics'    => $graph,
             'columns'       => $column,
             'operators'     => $operator,
+            'start'         => $start,
+            'end'           => $end,
         ]);
     }
 
@@ -266,7 +271,7 @@ class CampaignController extends Controller
         $start = $request->start ?? Carbon::now()->subDays(29)->format('Y-m-d');
         $end = $request->end ?? Carbon::now()->format('Y-m-d');
         $column = array_keys(Campaign::first()->toArray());
-        $operator = ["==","!=",">","<",">=","<=","contains"];
+        $operator = ["==","!=",">","<",">=","<="];
 
 
         $graph = CampaignCollection::raw(function ($collection) use ($start, $end, $id) {
@@ -277,8 +282,12 @@ class CampaignController extends Controller
                             '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
                             '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
                         ],
-                        '_id' => new ObjectID($id),
                     ],
+                ],
+                [
+                    '$match' => [
+                        '_id' => $id,
+                    ]
                 ],
                 [
                     '$project' => [
@@ -340,6 +349,9 @@ class CampaignController extends Controller
                         'pipeline' => [
                             [
                                 '$project' => [
+                                    '_id' => [
+                                        '$toString' => '$_id'
+                                    ],
                                     'start_date' => [
                                         '$toString' => '$start_date'
                                     ],

@@ -27,6 +27,7 @@
                 focus:border-purple-400
                 focus:outline-none
                 focus:shadow-outline-purple
+                text-gray-700
                 dark:text-gray-300 dark:focus:shadow-outline-gray
                 form-input
             "

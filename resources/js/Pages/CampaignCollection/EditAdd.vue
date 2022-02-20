@@ -34,7 +34,7 @@
                                 >Impressions</span
                             >
                             <input
-                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 text-gray-700 dark:focus:shadow-outline-gray form-input"
                                 v-model="form.impressions"
                                 placeholder="impressions"
                                 type="number"
@@ -47,7 +47,7 @@
                                 >Clicks</span
                             >
                             <input
-                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 text-gray-700 dark:focus:shadow-outline-gray form-input"
                                 v-model="form.clicks"
                                 placeholder="click"
                                 type="number"
@@ -60,7 +60,7 @@
                                 >Rate</span
                             >
                             <input
-                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
+                                class="block w-full mt-1 text-sm border border-gray-200 rounded-md dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 text-gray-700 dark:focus:shadow-outline-gray form-input"
                                 v-model="form.rate"
                                 placeholder="rate"
                                 type="number"
