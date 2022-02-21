@@ -4,7 +4,7 @@
     <BreezeAuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-base-100 overflow-visible shadow-lg">
+                <div class="overflow-visible shadow-lg">
                     <div class="px-4 py-3 mb-8 rounded-lg">
                         <div class="flex space-x-4 overflow-visible">
                             <div class="basis-2/4">
@@ -88,9 +88,7 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="p-6 min-w-0 bg-base-100 rounded-lg shadow-lg"
-                >
+                <div class="p-6 min-w-0 rounded-lg shadow-lg">
                     <BreezeChart
                         v-if="this.chartData.datasets.length > 0"
                         :chartData="chartData"
@@ -103,15 +101,13 @@
             </div>
         </div>
         <div class="py-5">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl text-gray-700 mx-auto sm:px-6 lg:px-8">
                 <div
                     tabindex="0"
-                    class="collapse bg-base-100 rounded-lg shadow-lg collapse-plus"
+                    class="collapse rounded-lg shadow-lg collapse-plus"
                 >
                     <input type="checkbox" />
-                    <div
-                        class="collapse-title text-xl font-medium"
-                    >
+                    <div class="collapse-title text-xl font-medium">
                         Advanced Filtering
                     </div>
                     <div class="collapse-content">
@@ -193,13 +189,13 @@
             </div>
         </div>
         <div class="py-5">
-            <div class="max-w-7xl mx-auto px-6 py-5 bg-base-100 rounded-lg shadow-lg">
+            <div class="max-w-7xl mx-auto px-6 py-5 rounded-lg shadow-lg">
                 <table
-                    class="table table-compact w-full mt-3 whitespace-no-wrap"
+                    class="w-full mt-3 whitespace-no-wrap"
                 >
                     <thead class="">
                         <tr
-                            class="text-xs font-semibold tracking-wide text-left  uppercase border-b border-black"
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                         >
                             <th
                                 @click="changeOrder('name')"
@@ -251,10 +247,9 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody
-                        class="bg-base-100 divide-y"
-                    >
+                    <tbody class="divide-y">
                         <tr
+                            class="text-gray-700"
                             v-for="(item, index) of data"
                             :key="index"
                         >

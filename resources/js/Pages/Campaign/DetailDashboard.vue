@@ -4,11 +4,9 @@
     <BreezeAuthenticatedLayout>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="overflow-visible rounded-lg shadow-lg bg-base-100">
+                <div class="overflow-visible rounded-lg shadow-lg text-gray-700">
                     <div class="px-4 py-3 mb-8 rounded-lg">
-                        <h1
-                            class="text-md uppercase mb-2"
-                        >
+                        <h1 class="text-md uppercase mb-2">
                             Campaign : {{ campaign.name }}
                         </h1>
                         <div class="flex space-x-4 overflow-visible">
@@ -19,7 +17,7 @@
                                     >
                                     <ul
                                         tabindex="0"
-                                        class="p-2 shadow menu dropdown-content rounded-box w-52"
+                                        class="p-2 bg-white shadow menu dropdown-content rounded-box w-52"
                                     >
                                         <li @click="filteringGraph('All')">
                                             <a>All</a>
@@ -80,7 +78,7 @@
 
                             <div class="basis-2/4">
                                 <litepie-datepicker
-                                    class=" focus:border-purple-400 focus:outline-none focus:shadow-outline-purple"
+                                    class="focus:border-purple-400 focus:outline-none focus:shadow-outline-purple"
                                     v-model="date"
                                     overlay
                                     :formatter="formatter"
@@ -93,9 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="p-6 min-w-0 rounded-lg shadow-lg bg-base-100"
-                >
+                <div class="p-6 min-w-0 rounded-lg shadow-lg">
                     <BreezeChart
                         v-if="this.chartData.datasets[0].data.length > 0"
                         :chartData="chartData"
@@ -111,12 +107,10 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     tabindex="0"
-                    class="collapse rounded-lg shadow-lg collapse-plus bg-base-100"
+                    class="collapse rounded-lg shadow-lg collapse-plus text-gray-700"
                 >
                     <input type="checkbox" />
-                    <div
-                        class="collapse-title text-xl font-medium"
-                    >
+                    <div class="collapse-title text-xl font-medium">
                         Advanced Filtering
                     </div>
                     <div class="collapse-content">
@@ -198,13 +192,15 @@
                 </div>
             </div>
         </div>
-        <div class="py-5 ">
-            <div class="max-w-7xl mx-auto px-6 py-5 bg-base-100 shadow-lg rounded-lg">
-                <table
-                    class="table table-compact w-full mt-3 whitespace-no-wrap"
-                >
+        <div class="py-5">
+            <div
+                class="max-w-7xl mx-auto px-6 py-5 shadow-lg rounded-lg"
+            >
+                <table class="w-full mt-3 whitespace-no-wrap">
                     <thead>
-                        <tr class="font-semibold tracking-wide text-left uppercase border-b">
+                        <tr
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+                        >
                             <th @click="changeOrder('name')">Campaign</th>
                             <th @click="changeOrder('deposit')">Date</th>
                             <th @click="changeOrder('goal')">Goal(%)</th>
@@ -215,13 +211,8 @@
                             <th @click="changeOrder('rate')">Rate</th>
                         </tr>
                     </thead>
-                    <tbody
-                        class="divide-y"
-                    >
-                        <tr
-                            v-for="(item, index) of data"
-                            :key="index"
-                        >
+                    <tbody class="divide-y text-gray-700">
+                        <tr v-for="(item, index) of data" :key="index">
                             <td class="px-4 py-3 text-sm">
                                 {{ campaign.name }}
                             </td>
