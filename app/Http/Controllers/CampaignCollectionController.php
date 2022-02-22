@@ -20,9 +20,10 @@ class CampaignCollectionController extends Controller
     public function index(Request $request)
     {
         $search = $request->search ? Str::of($request->search)->explode(':') : null;
-        $date = $request->date;
+        $startDate = $request->startDate;
+        $endDate = $request->endDate;
         $campaigns = $request->campaign;
-        $collection = CampaignCollection::with('campaign')->where(function ($q) use ($search, $date, $campaigns) {
+        $collection = CampaignCollection::with('campaign')->where(function ($q) use ($search, $startDate, $endDate, $campaigns) {
             if ($search) {
                 if (count($search) == 1) {
 
@@ -41,8 +42,8 @@ class CampaignCollectionController extends Controller
                     }
                 }
             }
-            if ($date) {
-                $q->where('date', new UTCDateTime(Carbon::parse($date . ' 00:00:00')->format('Uv')));
+            if ($startDate && $endDate) {
+                $q->whereBetween('date', [new UTCDateTime(Carbon::parse($startDate . ' 00:00:00')->format('Uv')), new UTCDateTime(Carbon::parse($endDate . ' 00:00:00')->format('Uv'))]);
             }
             if ($campaigns) {
                 $q->where('campaign_id', $campaigns);

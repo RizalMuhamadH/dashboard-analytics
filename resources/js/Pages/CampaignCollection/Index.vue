@@ -24,10 +24,9 @@
                 <litepie-datepicker
                     class="focus:border-purple-400 focus:outline-none focus:shadow-outline-purple"
                     v-model="date"
-                    asSingle
                     overlay
                     :formatter="formatter"
-                    :placeholder="date ? '' : formatter.date"
+                    :placeholder="placeholder()"
                 ></litepie-datepicker>
             </div>
 
@@ -76,8 +75,7 @@
                         name="search"
                         v-model="search"
                         type="text"
-                        placeholder="Search"
-                        aria-label="Search"
+                        placeholder="Query"
                         @keyup.enter="handleSearch"
                     />
                 </div>
@@ -208,8 +206,11 @@ export default {
         return {
             campaign: "",
             search: "",
-            date: "",
-            field: ["impressions", "clicks", "rate"],
+            date: {
+                startDate: "",
+                endDate: "",
+            },
+            initial: false,
             formatter: {
                 date: "YYYY-MM-DD",
                 month: "MMM",
@@ -228,20 +229,24 @@ export default {
     },
     watch: {
         campaign(newValue, oldValue) {
-            if(newValue != oldValue && oldValue != "") {
+            if(!this.initial) {
                 this.handleSearch();
             }
+            this.initial = false;
         },
         date(newValue, oldValue) {
-            console.log(newValue);
-            console.log(oldValue);
-            if(newValue != oldValue && oldValue != "") {
+            if(!this.initial) {
                 this.handleSearch();
             }
-            // this.handleSearch();
+            this.initial = false;
         },
     },
     methods: {
+        placeholder(){
+            if(this.date.startDate != "" && this.date.endDate != "") {
+                return `${this.date.startDate} ~ ${this.date.endDate}`;
+            } 
+        },
         formatNumber(num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         },
@@ -257,7 +262,8 @@ export default {
                     "campaign-collection.index",
                     {
                         search: this.search,
-                        date: this.date,
+                        startDate: this.date.startDate,
+                        endDate: this.date.endDate,
                         campaign: this.campaign,
                     },
                     { replace: true, preserveState: true }
@@ -277,14 +283,13 @@ export default {
         // console.log(window.location.search);
         const queryString = window.location.search;
         if (queryString) {
+            this.initial = true;
             const urlParams = new URLSearchParams(queryString);
             this.search = urlParams.get("search");
-            this.date = urlParams.get("date");
-            this.campaign = urlParams.get("campaign");
+            this.date.startDate = urlParams.get("startDate");
+            this.date.endDate = urlParams.get("endDate");
+            this.campaign = urlParams.get("campaign") == "" ? "0" : urlParams.get("campaign");
         }
-        // const parameters = new URLSearchParams(queryString);
-
-        // this.form.search = parameters.get("search") ?? "";
 
         if (this.$page.props.success.message != null) {
             toastr.success(this.$page.props.success.message);

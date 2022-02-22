@@ -602,22 +602,22 @@ export default {
                     this.sorting.ascending = false;
                 }
             }
-            this.$inertia.get(
-                this.route("dashboard.index"),
-                {
-                    start: this.date.startDate,
-                    end: this.date.endDate,
-                    graphic: this.graphic,
-                    column: this.sorting.column,
-                    ascending: this.sorting.ascending,
-                },
-                {
-                    onSuccess: (page) => {},
-                    onError: (errors) => {
-                        console.log(errors);
-                    },
-                }
-            );
+            // this.$inertia.get(
+            //     this.route("dashboard.index"),
+            //     {
+            //         start: this.date.startDate,
+            //         end: this.date.endDate,
+            //         graphic: this.graphic,
+            //         column: this.sorting.column,
+            //         ascending: this.sorting.ascending,
+            //     },
+            //     {
+            //         onSuccess: (page) => {},
+            //         onError: (errors) => {
+            //             console.log(errors);
+            //         },
+            //     }
+            // );
         },
 
         handleExport(type) {
