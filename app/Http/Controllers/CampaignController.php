@@ -173,7 +173,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -214,7 +214,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -249,7 +249,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -284,7 +284,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -306,8 +306,8 @@ class CampaignController extends Controller
                             '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
                         ],
                     ],
-                    
-                    
+
+
                 ],
                 ['$sort' => [$orderby => $ascending]],
                 [
@@ -393,42 +393,43 @@ class CampaignController extends Controller
         }else{
             $campaign = Campaign::orderByDesc($orderby)->with('collection')->findOrFail($id);
         }
-        
+
         $start = $request->start ?? Carbon::parse($campaign->start_date)->format('Y-m-d');
         $end = $request->end ?? Carbon::parse($campaign->end_date)->format('Y-m-d');
         $graphic = $request->graphic ?? "All";
         $column = array_keys(Campaign::first()->toArray());
         $operator = ["==","!=",">","<",">=","<="];
-
-        if($graphic == "All"){
-            $graph = CampaignCollection::raw(function ($collection) use ($start, $end, $id) {
-                return $collection->aggregate([
-                    [
-                        '$match' => [
-                            'date' => [
-                                '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
-                                '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
-                            ],
+        $data_collection = CampaignCollection::raw(function ($collection) use ($start, $end, $id) {
+            return $collection->aggregate([
+                [
+                    '$match' => [
+                        'date' => [
+                            '$gte' => new UTCDateTime(Carbon::parse($start . ' 00:00:00')->format('Uv')),
+                            '$lte' => new UTCDateTime(Carbon::parse($end . ' 23:59:59')->format('Uv')),
                         ],
                     ],
-                    [
-                        '$match' => [
-                            'campaign_id' => $id,
-                        ]
-                    ],
-                    [
-                        '$project' => [
-                            'campaign_id' => '$campaign_id',
-                            'impressions' => '$impressions',
-                            'date' => [
-                                '$toString' => '$date'
-                            ],
-                            'clicks' => '$clicks',
-                            'rate' => '$rate'
-                        ]
-                    ],
-                ]);
-            });
+                ],
+                [
+                    '$match' => [
+                        'campaign_id' => $id,
+                    ]
+                ],
+                [
+                    '$project' => [
+                        'campaign_id' => '$campaign_id',
+                        'impressions' => '$impressions',
+                        'date' => [
+                            '$toString' => '$date'
+                        ],
+                        'clicks' => '$clicks',
+                        'rate' => '$rate'
+                    ]
+                ],
+            ]);
+        });
+
+        if($graphic == "All"){
+            $graph = $data_collection;
         }elseif($graphic == "Clicks"){
             $graph = CampaignCollection::raw(function ($collection) use ($start, $end, $id) {
                 return $collection->aggregate([
@@ -511,11 +512,11 @@ class CampaignController extends Controller
                 ]);
             });
         }
-       
+
         // dd($campaign);
         return Inertia::render('Campaign/DetailDashboard', [
             'campaign'      => $campaign,
-            'collection'    => $graph,
+            'collection'    => $data_collection,
             'statistics'    => $graph,
             'columns'       => $column,
             'operators'     => $operator,
@@ -556,7 +557,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -597,7 +598,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -632,7 +633,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
@@ -667,7 +668,7 @@ class CampaignController extends Controller
                     ],
                     [
                         '$group' => [
-    
+
                             '_id' => [
                                 'date' => '$date'
                             ],
